@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class PlayerController : MonoBehaviour
 
@@ -11,6 +12,12 @@ public class PlayerController : MonoBehaviour
     public GameObject GroundCheaker;
     public float GroundCheckRadius;
     public LayerMask ignoreLayer;
+    public CinemachineVirtualCamera virtualCamera;
+    public float verticalCameraMin;
+    public float verticalCameraMax;
+    
+    public float cameraVerticalSpeed = 0.1f;
+
 
     private Vector3 playerVelocity;
     private float gravityValue = -9.8f;
@@ -59,6 +66,7 @@ public class PlayerController : MonoBehaviour
 
         playerVelocity.y += gravityValue * Time.deltaTime;
         characterController.Move(playerVelocity * Time.deltaTime);
+        CameraVerticalMove();
 
     }
 
@@ -82,5 +90,21 @@ public class PlayerController : MonoBehaviour
             return false;
         }
         
+    }
+
+    private void CameraVerticalMove()
+    {
+        float mouseY = Input.GetAxis("Mouse Y");
+        print(virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>());
+        virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>().VerticalArmLength += mouseY * cameraVerticalSpeed;
+        if (virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>().VerticalArmLength < verticalCameraMin)
+        {
+            virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>().VerticalArmLength = verticalCameraMin;
+        }
+
+        if (virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>().VerticalArmLength > verticalCameraMax)
+        {
+            virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>().VerticalArmLength = verticalCameraMax;
+        }
     }
 }
