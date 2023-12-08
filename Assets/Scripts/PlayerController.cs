@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour
 
 {
     public float speed = 1;
+    public float maxSpeed = 15;
+    public float minSpeed = 10;
+    public KeyCode walkKey = KeyCode.LeftControl;
     public float mouseSensative = 1;
     public float jumpStrength = 5;
     public GameObject GroundCheaker;
@@ -34,6 +37,15 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (Input.GetKey(walkKey))
+        {
+            speed = minSpeed;
+        }
+        else
+        {
+            speed = maxSpeed;
+        }
 
         //bool grounded = characterController.isGrounded;
         bool grounded = IsGrounded();

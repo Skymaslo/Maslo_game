@@ -13,6 +13,7 @@ public class SpawnPoint : MonoBehaviour
     Vector3 leftBottom;
 
     public GameObject Block;
+    public int blockCount;
 
     void Start()
     {
@@ -40,23 +41,23 @@ public class SpawnPoint : MonoBehaviour
             bounds.center.z - bounds.size.z / 2
             );
 
-        print("center: " + bounds.center);
+        print("center: " + bounds.center); 
         print("size: " + bounds.size);
 
-        Spawnblock();
-        Spawnblock();
-        Spawnblock();
-        Spawnblock();
-        Spawnblock();
+        for (int i = 0; blockCount > i; i++)
+        {
+            Spawnblock();
+        }
+        
     }
 
     public void Spawnblock()
     {
-        float xDiff = rightTop.x - leftTop.x;
-        float spawnX = leftTop.x + Random.Range(0, xDiff);
+        float xDiff = rightTop.x + leftTop.x;
+        float spawnX = leftTop.x - Random.Range(0, xDiff);
 
-        float zDiff = rightTop.z - rightBottom.z;
-        float spawnZ = leftTop.z + Random.Range(0, zDiff);
+        float zDiff = rightTop.z + rightBottom.z;
+        float spawnZ = leftTop.z - Random.Range(0, zDiff);
 
         //Instantiate(что спавним, где спавним, как поворачиваем);
         Instantiate(Block, new Vector3(spawnX, rightTop.y, spawnZ), Quaternion.identity);
